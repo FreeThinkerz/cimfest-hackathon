@@ -66,7 +66,7 @@ apiClient.interceptors.response.use(
             reject,
           });
         })
-          .then((token: string) => {
+          .then((token) => {
             originalRequest.headers.Authorization = `Bearer ${token}`;
             return apiClient(originalRequest);
           })

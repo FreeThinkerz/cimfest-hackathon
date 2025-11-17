@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { usePitchAnalysis } from "../hooks/usePitchAnalysis";
 import {Button} from "@/components/ui/button"
 
