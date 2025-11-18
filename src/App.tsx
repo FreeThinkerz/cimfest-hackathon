@@ -17,6 +17,7 @@ import LabelDashboardPage from '@/pages/LabelDashboardPage';
 import MentorDirectoryPage from '@/pages/MentorDirectoryPage';
 import PromotionalGuidePage from '@/pages/PromotionalGuidePage';
 import DrillPracticePage from '@/pages/DrillPracticePage';
+import MelodyTrainerPage from '@/pages/MelodyTrainerPage';
 
 function ProtectedRoute({ 
   children, 
@@ -94,6 +95,14 @@ function App() {
           element={
             <ProtectedRoute requiredRole="MUSICIAN">
               <DrillPracticePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/training/melody-trainer"
+          element={
+            <ProtectedRoute requiredRole="MUSICIAN">
+              <MelodyTrainerPage />
             </ProtectedRoute>
           }
         />

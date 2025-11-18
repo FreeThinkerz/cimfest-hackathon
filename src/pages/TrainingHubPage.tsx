@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Brain, ArrowLeft, CheckCircle2, Circle, Trophy } from 'lucide-react';
+import { Brain, ArrowLeft, CheckCircle2, Circle, Trophy, Music2 } from 'lucide-react';
 import type { MusicianProfile } from '@/types/models.types';
 
 export default function TrainingHubPage() {
@@ -158,7 +158,7 @@ export default function TrainingHubPage() {
         </div>
 
         {/* Action Buttons */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card className="hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate('/training/drill-practice')}>
             <CardHeader>
               <div className="flex items-center gap-3">
@@ -166,6 +166,18 @@ export default function TrainingHubPage() {
                 <div>
                   <CardTitle>Pitch Drill Practice</CardTitle>
                   <CardDescription>Interactive vocal exercises</CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate('/training/melody-trainer')}>
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <Music2 className="w-8 h-8 text-pink-600" />
+                <div>
+                  <CardTitle>Melody Trainer</CardTitle>
+                  <CardDescription>Cameroon music styles</CardDescription>
                 </div>
               </div>
             </CardHeader>
