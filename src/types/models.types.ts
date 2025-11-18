@@ -1,26 +1,20 @@
-export type UserRole = 'MUSICIAN' | 'LABEL';
+export type UserRole = "artist" | "sponsor";
 
-export interface Role {
-  type: UserRole;
-  permissions: string[];
-}
+// export interface Role {
+//   type: UserRole;
+//   permissions: string[];
+// }
 
 export interface User {
   id: string | number;
+  name: string;
+  artist_name: string;
   email: string;
-  role: UserRole;
-  profile: MusicianProfile | LabelProfile;
-}
-
-export interface MusicianProfile {
-  stageName: string;
-  fullName: string;
-  genre: string;
-  region: string;
-  level: TalentLevel;
-  talentScores: TalentScores | null;
-  lessonsCompleted: LessonProgress[];
-  createdAt: string;
+  roles: UserRole[];
+  talent_level: TalentLevel;
+  region?: string;
+  talentscores: TalentScores | null;
+  lessonsCompleted?: LessonProgress[];
 }
 
 export interface LabelProfile {
@@ -32,7 +26,7 @@ export interface LabelProfile {
   createdAt: string;
 }
 
-export type TalentLevel = 'basic' | 'intermediate' | 'advanced';
+export type TalentLevel = "basic" | "intermediate" | "advanced";
 
 export interface TalentScores {
   pitchAccuracy: number;

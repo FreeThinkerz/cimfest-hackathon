@@ -19,7 +19,6 @@ import {
   Trophy,
   Music2,
 } from "lucide-react";
-import { useEffect } from "react";
 
 export default function TrainingHubPage() {
   const navigate = useNavigate();
@@ -190,7 +189,7 @@ export default function TrainingHubPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card
             className="hover:shadow-lg transition-all cursor-pointer"
-            onClick={() => navigate("/training/drill-practice")}
+            onClick={() => navigate("drill-practice")}
           >
             <CardHeader>
               <div className="flex items-center gap-3">
@@ -205,7 +204,7 @@ export default function TrainingHubPage() {
 
           <Card
             className="hover:shadow-lg transition-all cursor-pointer"
-            onClick={() => navigate("/training/melody-trainer")}
+            onClick={() => navigate("melody-trainer")}
           >
             <CardHeader>
               <div className="flex items-center gap-3">
@@ -220,7 +219,7 @@ export default function TrainingHubPage() {
 
           <Card
             className="hover:shadow-lg transition-all cursor-pointer"
-            onClick={() => navigate("/training/scorecard")}
+            onClick={() => navigate("scorecard")}
           >
             <CardHeader>
               <div className="flex items-center gap-3">
@@ -237,7 +236,7 @@ export default function TrainingHubPage() {
 
           <Card
             className="hover:shadow-lg transition-all cursor-pointer"
-            onClick={() => navigate("/training/level-progression")}
+            onClick={() => navigate("level-progression")}
           >
             <CardHeader>
               <div className="flex items-center gap-3">

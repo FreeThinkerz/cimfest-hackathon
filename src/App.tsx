@@ -1,154 +1,151 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useAuthStore } from '@/store/authStore';
-import { Toaster } from '@/components/ui/toaster';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
+import { useAuthStore } from "@/store/authStore";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import NotFound from "./pages/NotFound";
 
-// Pages
-import LandingPage from '@/pages/LandingPage';
-import MusicianSignupPage from '@/pages/MusicianSignupPage';
-import LabelLoginPage from '@/pages/LabelLoginPage';
-import DashboardPage from '@/pages/DashboardPage';
-import ArtistDirectoryPage from '@/pages/ArtistDirectoryPage';
-import ArtistDetailPage from '@/pages/ArtistDetailPage';
-import TrainingHubPage from '@/pages/TrainingHubPage';
-import LessonPage from '@/pages/LessonPage';
-import TalentScorecardPage from '@/pages/TalentScorecardPage';
-import LevelProgressionPage from '@/pages/LevelProgressionPage';
-import LabelDashboardPage from '@/pages/LabelDashboardPage';
-import MentorDirectoryPage from '@/pages/MentorDirectoryPage';
-import PromotionalGuidePage from '@/pages/PromotionalGuidePage';
-import DrillPracticePage from '@/pages/DrillPracticePage';
-import MelodyTrainerPage from '@/pages/MelodyTrainerPage';
+// Auth Pages
+import Register from "@/pages/auth/register";
+import Login from "@/pages/auth/login";
 
-function ProtectedRoute({ 
-  children, 
-  requiredRole 
-}: { 
+import type { UserRole } from "./types/models.types";
+import { CustomCursor } from "@/components/CustomCursor";
+import { ThreeBackground } from "@/components/ThreeBackground";
+import { AppLayout } from "@/layouts/app-layout";
+
+// Dashboards
+import ArtistDashboard from "@/pages/artist/dashboard";
+import SponsorDashboard from "@/pages/sponsor/dashboard";
+import TrainingHubPage from "./pages/artist/dashboard/training/index";
+import LessonPage from "./pages/LessonPage";
+import TalentScorecardPage from "./pages/artist/dashboard/training/scorecard";
+import LevelProgressionPage from "./pages/LevelProgressionPage";
+import DrillPracticePage from "./pages/artist/dashboard/training/drill-practice";
+import MelodyTrainerPage from "./pages/artist/dashboard/training/melody-trainer.tsx";
+import PromotionalGuidePage from "./pages/artist/dashboard/promotion-guide";
+import LabelDashboardPage from "./pages/LabelDashboardPage";
+import ArtistDirectoryPage from "./pages/artist/dashboard/nmd/index";
+import ArtistDetailPage from "./pages/artist/dashboard/nmd/show";
+
+function ProtectedRoute({
+  children,
+  requiredRole,
+}: {
   children: React.ReactNode;
-  requiredRole?: 'MUSICIAN' | 'LABEL';
+  requiredRole?: UserRole;
 }) {
   const { isAuthenticated, hasRole } = useAuthStore();
-  
+
   if (!isAuthenticated) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/login" replace />;
   }
-  
+
   if (requiredRole && !hasRole(requiredRole)) {
-    return <Navigate to="/" replace />;
+    // Redirect users without required role to their dashboard
+    if (hasRole("artist")) return <Navigate to="/artist-dashboard" replace />;
+    if (hasRole("sponsor")) return <Navigate to="/sponsor-dashboard" replace />;
+
+    return <Navigate to="/login" replace />;
   }
-  
+
   return <>{children}</>;
 }
 
+const queryClient = new QueryClient();
+
 function App() {
+  const { isAuthenticated, hasRole } = useAuthStore();
+
   return (
-    <BrowserRouter>
-      <Toaster />
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/musician/signup" element={<MusicianSignupPage />} />
-        <Route path="/label/login" element={<LabelLoginPage />} />
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <CustomCursor />
+        <ThreeBackground />
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            {/* Root Route Redirect */}
+            <Route
+              path="/"
+              element={
+                !isAuthenticated ? (
+                  <Navigate to="/login" replace />
+                ) : hasRole("artist") ? (
+                  <Navigate to="/artist-dashboard" replace />
+                ) : hasRole("sponsor") ? (
+                  <Navigate to="/sponsor-dashboard" replace />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
 
-        {/* Musician Protected Routes */}
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute requiredRole="MUSICIAN">
-              <DashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/training"
-          element={
-            <ProtectedRoute requiredRole="MUSICIAN">
-              <TrainingHubPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/training/lesson/:lessonId"
-          element={
-            <ProtectedRoute requiredRole="MUSICIAN">
-              <LessonPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/training/scorecard"
-          element={
-            <ProtectedRoute requiredRole="MUSICIAN">
-              <TalentScorecardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/training/level-progression"
-          element={
-            <ProtectedRoute requiredRole="MUSICIAN">
-              <LevelProgressionPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/training/drill-practice"
-          element={
-            <ProtectedRoute requiredRole="MUSICIAN">
-              <DrillPracticePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/training/melody-trainer"
-          element={
-            <ProtectedRoute requiredRole="MUSICIAN">
-              <MelodyTrainerPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/promotional-guide"
-          element={
-            <ProtectedRoute requiredRole="MUSICIAN">
-              <PromotionalGuidePage />
-            </ProtectedRoute>
-          }
-        />
+            {/* Public Auth Routes */}
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
 
-        {/* Label Protected Routes */}
-        <Route
-          path="/label/dashboard"
-          element={
-            <ProtectedRoute requiredRole="LABEL">
-              <LabelDashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/label/artist/:id"
-          element={
-            <ProtectedRoute requiredRole="LABEL">
-              <TalentScorecardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/label/mentors"
-          element={
-            <ProtectedRoute requiredRole="LABEL">
-              <MentorDirectoryPage />
-            </ProtectedRoute>
-          }
-        />
+            {/* artist dashboard */}
+            <Route
+              path="artist-dashboard"
+              element={
+                <ProtectedRoute requiredRole="artist">
+                  <AppLayout>
+                    <Outlet />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<ArtistDashboard />} />
+              <Route path="training">
+                <Route index element={<TrainingHubPage />} />
+                <Route path="lesson/:lessonId" element={<LessonPage />} />
+                <Route path="scorecard" element={<TalentScorecardPage />} />
+                <Route
+                  path="level-progression"
+                  element={<LevelProgressionPage />}
+                />
+                <Route path="drill-practice" element={<DrillPracticePage />} />
+                <Route path="melody-trainer" element={<MelodyTrainerPage />} />
+              </Route>
+              <Route
+                path="promotional-guide"
+                element={<PromotionalGuidePage />}
+              />
 
-        {/* Public National Music Database */}
-        <Route path="/nmd" element={<ArtistDirectoryPage />} />
-        <Route path="/nmd/:id" element={<ArtistDetailPage />} />
+              <Route path="nmd">
+                <Route index element={<ArtistDirectoryPage />} />
+                <Route path=":id" element={<ArtistDetailPage />} />
+              </Route>
+            </Route>
 
-        {/* Catch all */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </BrowserRouter>
+            <Route path="mentors" />
+            <Route path="sponsor-dashboard">
+              <Route
+                index
+                element={
+                  <ProtectedRoute requiredRole="sponsor">
+                    <LabelDashboardPage />
+                  </ProtectedRoute>
+                }
+              />
+              {/* <Route path="artist/:id" /> */}
+            </Route>
+
+            {/* Catch-all */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
   );
 }
 
