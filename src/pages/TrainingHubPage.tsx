@@ -1,26 +1,28 @@
 import { useNavigate } from 'react-router-dom';
-import { useUserStore } from '@/store/userStore';
+import { useAuthStore } from '@/store/authStore';
 import { lessons } from '@/data/mockData';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Brain, ArrowLeft, CheckCircle2, Circle, Trophy } from 'lucide-react';
+import type { MusicianProfile } from '@/types/models.types';
 
 export default function TrainingHubPage() {
   const navigate = useNavigate();
-  const user = useUserStore((state) => state.user);
+  const { user } = useAuthStore();
+  const musicianProfile = user?.profile as MusicianProfile;
 
-  if (!user) {
+  if (!user || !musicianProfile) {
     navigate('/');
     return null;
   }
 
-  const completedCount = user.lessonsCompleted.filter((l) => l.completed).length;
+  const completedCount = musicianProfile.lessonsCompleted.filter((l) => l.completed).length;
   const progress = (completedCount / lessons.length) * 100;
 
   const getLessonStatus = (lessonId: string) => {
-    const lesson = user.lessonsCompleted.find((l) => l.lessonId === lessonId);
+    const lesson = musicianProfile.lessonsCompleted.find((l) => l.lessonId === lessonId);
     return lesson;
   };
 
@@ -52,7 +54,7 @@ export default function TrainingHubPage() {
                 </div>
               </div>
               <div className="text-center bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded-xl p-4">
-                <div className="text-3xl font-bold capitalize">{user.level}</div>
+                <div className="text-3xl font-bold capitalize">{musicianProfile.level}</div>
                 <div className="text-xs font-semibold">Current Level</div>
               </div>
             </div>
@@ -78,19 +80,19 @@ export default function TrainingHubPage() {
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                <div className="text-xl font-bold">{user.stageName}</div>
+                <div className="text-xl font-bold">{musicianProfile.stageName}</div>
                 <div className="text-xs text-muted-foreground">Stage Name</div>
               </div>
               <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                <div className="text-xl font-bold">{user.genre}</div>
+                <div className="text-xl font-bold">{musicianProfile.genre}</div>
                 <div className="text-xs text-muted-foreground">Genre</div>
               </div>
               <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                <div className="text-xl font-bold">{user.region}</div>
+                <div className="text-xl font-bold">{musicianProfile.region}</div>
                 <div className="text-xs text-muted-foreground">Region</div>
               </div>
               <div className="text-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
-                <div className="text-xl font-bold capitalize">{user.level}</div>
+                <div className="text-xl font-bold capitalize">{musicianProfile.level}</div>
                 <div className="text-xs text-muted-foreground">Level</div>
               </div>
             </div>
@@ -156,7 +158,19 @@ export default function TrainingHubPage() {
         </div>
 
         {/* Action Buttons */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Card className="hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate('/training/drill-practice')}>
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <Brain className="w-8 h-8 text-blue-600" />
+                <div>
+                  <CardTitle>Pitch Drill Practice</CardTitle>
+                  <CardDescription>Interactive vocal exercises</CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+          </Card>
+
           <Card className="hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate('/training/scorecard')}>
             <CardHeader>
               <div className="flex items-center gap-3">

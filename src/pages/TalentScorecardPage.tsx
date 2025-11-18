@@ -1,22 +1,24 @@
 import { useNavigate } from 'react-router-dom';
-import { useUserStore } from '@/store/userStore';
+import { useAuthStore } from '@/store/authStore';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { ArrowLeft, TrendingUp, Mic2, Music2, Radio, Sparkles, Trophy } from 'lucide-react';
+import type { MusicianProfile } from '@/types/models.types';
 
 export default function TalentScorecardPage() {
   const navigate = useNavigate();
-  const user = useUserStore((state) => state.user);
+  const { user } = useAuthStore();
+  const musicianProfile = user?.profile as MusicianProfile;
 
-  if (!user) {
+  if (!user || !musicianProfile) {
     navigate('/');
     return null;
   }
 
   // Generate mock scores if not available
-  const scores = user.talentScores || {
+  const scores = musicianProfile.talentScores || {
     pitchAccuracy: Math.floor(Math.random() * 20) + 75,
     rhythmStability: Math.floor(Math.random() * 20) + 75,
     vocalStrength: Math.floor(Math.random() * 3) + 7,

@@ -1,9 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useUserStore } from '@/store/userStore';
+import { useAuthStore } from '@/store/authStore';
 import { Toaster } from '@/components/ui/toaster';
 
 // Pages
-import SignupPage from '@/pages/SignupPage';
+import LandingPage from '@/pages/LandingPage';
+import MusicianSignupPage from '@/pages/MusicianSignupPage';
+import LabelLoginPage from '@/pages/LabelLoginPage';
 import DashboardPage from '@/pages/DashboardPage';
 import ArtistDirectoryPage from '@/pages/ArtistDirectoryPage';
 import ArtistDetailPage from '@/pages/ArtistDetailPage';
@@ -11,16 +13,28 @@ import TrainingHubPage from '@/pages/TrainingHubPage';
 import LessonPage from '@/pages/LessonPage';
 import TalentScorecardPage from '@/pages/TalentScorecardPage';
 import LevelProgressionPage from '@/pages/LevelProgressionPage';
-import LabelPortalLoginPage from '@/pages/LabelPortalLoginPage';
 import LabelDashboardPage from '@/pages/LabelDashboardPage';
 import MentorDirectoryPage from '@/pages/MentorDirectoryPage';
 import PromotionalGuidePage from '@/pages/PromotionalGuidePage';
+import DrillPracticePage from '@/pages/DrillPracticePage';
 
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const user = useUserStore((state) => state.user);
-  if (!user) {
+function ProtectedRoute({ 
+  children, 
+  requiredRole 
+}: { 
+  children: React.ReactNode;
+  requiredRole?: 'MUSICIAN' | 'LABEL';
+}) {
+  const { isAuthenticated, hasRole } = useAuthStore();
+  
+  if (!isAuthenticated) {
     return <Navigate to="/" replace />;
   }
+  
+  if (requiredRole && !hasRole(requiredRole)) {
+    return <Navigate to="/" replace />;
+  }
+  
   return <>{children}</>;
 }
 
@@ -30,27 +44,23 @@ function App() {
       <Toaster />
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<SignupPage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/musician/signup" element={<MusicianSignupPage />} />
+        <Route path="/label/login" element={<LabelLoginPage />} />
 
-        {/* Protected Routes */}
+        {/* Musician Protected Routes */}
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="MUSICIAN">
               <DashboardPage />
             </ProtectedRoute>
           }
         />
-
-        {/* National Music Database */}
-        <Route path="/nmd" element={<ArtistDirectoryPage />} />
-        <Route path="/nmd/:id" element={<ArtistDetailPage />} />
-
-        {/* Training */}
         <Route
           path="/training"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="MUSICIAN">
               <TrainingHubPage />
             </ProtectedRoute>
           }
@@ -58,7 +68,7 @@ function App() {
         <Route
           path="/training/lesson/:lessonId"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="MUSICIAN">
               <LessonPage />
             </ProtectedRoute>
           }
@@ -66,7 +76,7 @@ function App() {
         <Route
           path="/training/scorecard"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="MUSICIAN">
               <TalentScorecardPage />
             </ProtectedRoute>
           }
@@ -74,27 +84,57 @@ function App() {
         <Route
           path="/training/level-progression"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="MUSICIAN">
               <LevelProgressionPage />
             </ProtectedRoute>
           }
         />
-
-        {/* Label Portal */}
-        <Route path="/label-portal" element={<LabelPortalLoginPage />} />
-        <Route path="/label-portal/dashboard" element={<LabelDashboardPage />} />
-        <Route path="/label-portal/artist/:id" element={<TalentScorecardPage />} />
-        <Route path="/label-portal/mentors" element={<MentorDirectoryPage />} />
-
-        {/* Promotional Guide */}
+        <Route
+          path="/training/drill-practice"
+          element={
+            <ProtectedRoute requiredRole="MUSICIAN">
+              <DrillPracticePage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/promotional-guide"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="MUSICIAN">
               <PromotionalGuidePage />
             </ProtectedRoute>
           }
         />
+
+        {/* Label Protected Routes */}
+        <Route
+          path="/label/dashboard"
+          element={
+            <ProtectedRoute requiredRole="LABEL">
+              <LabelDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/label/artist/:id"
+          element={
+            <ProtectedRoute requiredRole="LABEL">
+              <TalentScorecardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/label/mentors"
+          element={
+            <ProtectedRoute requiredRole="LABEL">
+              <MentorDirectoryPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Public National Music Database */}
+        <Route path="/nmd" element={<ArtistDirectoryPage />} />
+        <Route path="/nmd/:id" element={<ArtistDetailPage />} />
 
         {/* Catch all */}
         <Route path="*" element={<Navigate to="/" replace />} />

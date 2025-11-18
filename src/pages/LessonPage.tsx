@@ -1,18 +1,26 @@
-import { useState, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useUserStore } from '@/store/userStore';
-import { lessons } from '@/data/mockData';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { ArrowLeft, Mic, CheckCircle2, XCircle, Volume2 } from 'lucide-react';
+import { useState, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/store/authStore";
+import { lessons } from "@/data/mockData";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { ArrowLeft, Mic, CheckCircle2, XCircle, Volume2 } from "lucide-react";
+import PitchAnalyzer from "@/components/PitchAnalyzer";
+import type { MusicianProfile } from "@/types/models.types";
 
 export default function LessonPage() {
   const { lessonId } = useParams();
   const navigate = useNavigate();
-  const user = useUserStore((state) => state.user);
-  const updateLessonProgress = useUserStore((state) => state.updateLessonProgress);
+  const { user } = useAuthStore();
+  const musicianProfile = user?.profile as MusicianProfile;
 
   const [isRecording, setIsRecording] = useState(false);
   const [hasRecorded, setHasRecorded] = useState(false);
@@ -25,9 +33,11 @@ export default function LessonPage() {
   const [recordingTime, setRecordingTime] = useState(0);
   const timerRef = useRef<number | undefined>(undefined);
 
+  console.log(hasRecorded);
   const lesson = lessons.find((l) => l.id === lessonId);
+  const [useAdvancedAnalysis, setUseAdvancedAnalysis] = useState(false);
 
-  if (!lesson || !user) {
+  if (!lesson || !user || !musicianProfile) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Card>
@@ -35,12 +45,16 @@ export default function LessonPage() {
             <CardTitle>Lesson Not Found</CardTitle>
           </CardHeader>
           <CardContent>
-            <Button onClick={() => navigate('/training')}>Back to Training Hub</Button>
+            <Button onClick={() => navigate("/training")}>
+              Back to Training Hub
+            </Button>
           </CardContent>
         </Card>
       </div>
     );
   }
+
+  const isPitchLesson = lessonId === "pitch-drill";
 
   const startRecording = () => {
     setIsRecording(true);
@@ -74,64 +88,61 @@ export default function LessonPage() {
 
       let feedback: string[] = [];
 
-      if (lessonId === 'vocal-warmup') {
+      if (lessonId === "vocal-warmup") {
         feedback = passed
           ? [
-              'Excellent breath control and support',
-              'Consistent volume throughout',
-              'Good vocal stability',
-              'Clear tone quality',
+              "Excellent breath control and support",
+              "Consistent volume throughout",
+              "Good vocal stability",
+              "Clear tone quality",
             ]
           : [
-              'Try maintaining steadier breath support',
-              'Focus on consistent volume',
-              'Practice more vocal warmup exercises',
+              "Try maintaining steadier breath support",
+              "Focus on consistent volume",
+              "Practice more vocal warmup exercises",
             ];
-      } else if (lessonId === 'pitch-drill') {
+      } else if (lessonId === "pitch-drill") {
         feedback = passed
           ? [
               `Outstanding pitch accuracy: ${mockScore}%`,
-              'Excellent pitch matching ability',
-              'Strong tonal memory',
-              'Ready for advanced pitch exercises',
+              "Excellent pitch matching ability",
+              "Strong tonal memory",
+              "Ready for advanced pitch exercises",
             ]
           : [
-              'Work on pitch accuracy',
-              'Practice ear training exercises',
-              'Try matching pitches with a piano',
-              'Focus on listening before singing',
+              "Work on pitch accuracy",
+              "Practice ear training exercises",
+              "Try matching pitches with a piano",
+              "Focus on listening before singing",
             ];
-      } else if (lessonId === 'rhythm-clapping') {
+      } else if (lessonId === "rhythm-clapping") {
         feedback = passed
           ? [
               `Excellent rhythm stability: ${mockScore}%`,
-              'Great timing consistency',
-              'Strong rhythmic sense',
-              'Ready for complex patterns',
+              "Great timing consistency",
+              "Strong rhythmic sense",
+              "Ready for complex patterns",
             ]
           : [
-              'Practice with a metronome',
-              'Focus on steady timing',
-              'Count along with the beat',
-              'Start with simpler patterns',
+              "Practice with a metronome",
+              "Focus on steady timing",
+              "Count along with the beat",
+              "Start with simpler patterns",
             ];
       }
 
       setResult({ score: mockScore, passed, feedback });
       setIsAnalyzing(false);
 
-      // Update user progress
-      updateLessonProgress(lesson.id, {
-        completed: true,
-        score: mockScore,
-        passed,
-      });
+      // Update user progress would go here
+      // For now, we'll just track locally in the component
+      setResult({ score: mockScore, passed, feedback });
     }, 2000);
   };
 
   const playReferencePitch = () => {
     // Mock function - in real app would play audio
-    console.log('Playing reference pitch');
+    console.log("Playing reference pitch");
   };
 
   return (
@@ -139,7 +150,7 @@ export default function LessonPage() {
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <Button
           variant="ghost"
-          onClick={() => navigate('/training')}
+          onClick={() => navigate("/training")}
           className="mb-6"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -152,7 +163,9 @@ export default function LessonPage() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-3xl mb-2">{lesson.title}</CardTitle>
-                <CardDescription className="text-base">{lesson.description}</CardDescription>
+                <CardDescription className="text-base">
+                  {lesson.description}
+                </CardDescription>
               </div>
               <Badge variant="secondary" className="text-lg px-4 py-2">
                 Pass: {lesson.passingScore}%
@@ -183,85 +196,236 @@ export default function LessonPage() {
             </Card>
 
             {/* Reference Pitch (for pitch drill) */}
-            {lessonId === 'pitch-drill' && (
+            {lessonId === "pitch-drill" && (
+              <>
+                <Card className="mb-4">
+                  <CardHeader>
+                    <CardTitle>Reference Pitch</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Button
+                      onClick={playReferencePitch}
+                      size="lg"
+                      variant="outline"
+                      className="w-full"
+                    >
+                      <Volume2 className="w-5 h-5 mr-2" />
+                      Play Reference Pitch
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card className="mb-8 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Mic className="w-5 h-5" />
+                      Advanced Pitch Training
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-gray-600 mb-4">
+                      Want more structured pitch practice? Try our interactive
+                      drill exercises with real-time feedback.
+                    </p>
+                    <Button
+                      onClick={() => navigate("/training/drill-practice")}
+                      variant="outline"
+                      className="w-full"
+                    >
+                      Open Drill Practice
+                    </Button>
+                  </CardContent>
+                </Card>
+              </>
+            )}
+
+            {/* Analysis Section */}
+            {isPitchLesson ? (
+              <div className="mb-8">
+                <Card className="mb-4">
+                  <CardHeader>
+                    <CardTitle>AI-Powered Pitch Analysis</CardTitle>
+                    <CardDescription>
+                      Use our advanced pitch detection system to practice and
+                      get real-time feedback
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex gap-2 mb-4">
+                      <Button
+                        variant={useAdvancedAnalysis ? "default" : "outline"}
+                        onClick={() => setUseAdvancedAnalysis(true)}
+                      >
+                        Advanced Analysis
+                      </Button>
+                      <Button
+                        variant={!useAdvancedAnalysis ? "default" : "outline"}
+                        onClick={() => setUseAdvancedAnalysis(false)}
+                      >
+                        Simple Recording
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {useAdvancedAnalysis ? (
+                  <PitchAnalyzer
+                    targetPitch={440} // A4 note for drill
+                    mode="drill"
+                  />
+                ) : (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Simple Recording Mode</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="flex flex-col items-center justify-center py-8">
+                        {!hasRecorded ? (
+                          <>
+                            <div
+                              className={`w-32 h-32 rounded-full flex items-center justify-center mb-6 transition-all ${
+                                isRecording
+                                  ? "bg-red-500 animate-pulse"
+                                  : "bg-gradient-to-br from-purple-500 to-pink-500"
+                              }`}
+                            >
+                              <Mic className="w-16 h-16 text-blue-500" />
+                            </div>
+                            {isRecording && (
+                              <div className="text-4xl text-black font-bold mb-4">
+                                recording
+                                {recordingTime}s
+                              </div>
+                            )}
+                            <Button
+                              size="lg"
+                              onClick={
+                                isRecording ? stopRecording : startRecording
+                              }
+                              className="text-lg px-8 border-black"
+                            >
+                              {isRecording
+                                ? "Stop Recording"
+                                : "Start Recording"}
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <CheckCircle2 className="w-24 h-24 text-green-600 mb-4" />
+                            <p className="text-lg font-semibold mb-6">
+                              Recording Complete!
+                            </p>
+                            <div className="flex gap-4">
+                              <Button
+                                size="lg"
+                                onClick={() => {
+                                  setHasRecorded(false);
+                                  setRecordingTime(0);
+                                }}
+                                variant="outline"
+                              >
+                                Re-record
+                              </Button>
+                              <Button
+                                size="lg"
+                                onClick={analyzeRecording}
+                                disabled={isAnalyzing}
+                              >
+                                {isAnalyzing
+                                  ? "Analyzing..."
+                                  : "Analyze Performance"}
+                              </Button>
+                            </div>
+                          </>
+                        )}
+                      </div>
+
+                      {isAnalyzing && (
+                        <div className="space-y-2">
+                          <p className="text-center text-sm text-muted-foreground">
+                            AI is analyzing your performance...
+                          </p>
+                          <Progress value={66} className="h-2" />
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+            ) : (
+              /* Standard Recording for other lessons */
               <Card className="mb-8">
                 <CardHeader>
-                  <CardTitle>Reference Pitch</CardTitle>
+                  <CardTitle>Record Your Performance</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <Button onClick={playReferencePitch} size="lg" variant="outline" className="w-full">
-                    <Volume2 className="w-5 h-5 mr-2" />
-                    Play Reference Pitch
-                  </Button>
+                <CardContent className="space-y-6">
+                  <div className="flex flex-col items-center justify-center py-8">
+                    {!hasRecorded ? (
+                      <>
+                        <div
+                          className={`w-32 h-32 rounded-full flex items-center justify-center mb-6 transition-all ${
+                            isRecording
+                              ? "bg-red-500 animate-pulse"
+                              : "bg-gradient-to-br from-purple-500 to-pink-500"
+                          }`}
+                        >
+                          <Mic className="w-16 h-16" />
+                        </div>
+                        {isRecording && (
+                          <div className="text-4xl font-bold mb-4">
+                            {recordingTime}s
+                          </div>
+                        )}
+                        <Button
+                          size="lg"
+                          onClick={isRecording ? stopRecording : startRecording}
+                          className="text-lg px-8"
+                        >
+                          {isRecording ? "Stop Recording" : "Start Recording"}
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle2 className="w-24 h-24 text-green-600 mb-4" />
+                        <p className="text-lg font-semibold mb-6">
+                          Recording Complete!
+                        </p>
+                        <div className="flex gap-4">
+                          <Button
+                            size="lg"
+                            onClick={() => {
+                              setHasRecorded(false);
+                              setRecordingTime(0);
+                            }}
+                            variant="outline"
+                          >
+                            Re-record
+                          </Button>
+                          <Button
+                            size="lg"
+                            onClick={analyzeRecording}
+                            disabled={isAnalyzing}
+                          >
+                            {isAnalyzing
+                              ? "Analyzing..."
+                              : "Analyze Performance"}
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+
+                  {isAnalyzing && (
+                    <div className="space-y-2">
+                      <p className="text-center text-sm text-muted-foreground">
+                        AI is analyzing your performance...
+                      </p>
+                      <Progress value={66} className="h-2" />
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             )}
-
-            {/* Recording Section */}
-            <Card className="mb-8">
-              <CardHeader>
-                <CardTitle>Record Your Performance</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="flex flex-col items-center justify-center py-8">
-                  {!hasRecorded ? (
-                    <>
-                      <div className={`w-32 h-32 rounded-full flex items-center justify-center mb-6 transition-all ${
-                        isRecording
-                          ? 'bg-red-500 animate-pulse'
-                          : 'bg-gradient-to-br from-purple-500 to-pink-500'
-                      }`}>
-                        <Mic className="w-16 h-16 text-white" />
-                      </div>
-                      {isRecording && (
-                        <div className="text-4xl font-bold mb-4">{recordingTime}s</div>
-                      )}
-                      <Button
-                        size="lg"
-                        onClick={isRecording ? stopRecording : startRecording}
-                        variant={isRecording ? 'destructive' : 'default'}
-                        className="text-lg px-8"
-                      >
-                        {isRecording ? 'Stop Recording' : 'Start Recording'}
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <CheckCircle2 className="w-24 h-24 text-green-600 mb-4" />
-                      <p className="text-lg font-semibold mb-6">Recording Complete!</p>
-                      <div className="flex gap-4">
-                        <Button
-                          size="lg"
-                          onClick={() => {
-                            setHasRecorded(false);
-                            setRecordingTime(0);
-                          }}
-                          variant="outline"
-                        >
-                          Re-record
-                        </Button>
-                        <Button
-                          size="lg"
-                          onClick={analyzeRecording}
-                          disabled={isAnalyzing}
-                        >
-                          {isAnalyzing ? 'Analyzing...' : 'Analyze Performance'}
-                        </Button>
-                      </div>
-                    </>
-                  )}
-                </div>
-
-                {isAnalyzing && (
-                  <div className="space-y-2">
-                    <p className="text-center text-sm text-muted-foreground">
-                      AI is analyzing your performance...
-                    </p>
-                    <Progress value={66} className="h-2" />
-                  </div>
-                )}
-              </CardContent>
-            </Card>
           </>
         ) : (
           /* Results */
@@ -274,11 +438,16 @@ export default function LessonPage() {
                   <XCircle className="w-20 h-20 text-red-600 mx-auto" />
                 )}
                 <CardTitle className="text-3xl">
-                  {result.passed ? 'Congratulations!' : 'Keep Practicing!'}
+                  {result.passed ? "Congratulations!" : "Keep Practicing!"}
                 </CardTitle>
-                <div className="text-6xl font-bold text-purple-600">{result.score}%</div>
-                <Badge variant={result.passed ? 'success' : 'destructive'} className="text-lg px-4 py-2">
-                  {result.passed ? 'PASSED' : 'FAILED'}
+                <div className="text-6xl font-bold text-purple-600">
+                  {result.score}%
+                </div>
+                <Badge
+                  variant={result.passed ? "success" : "destructive"}
+                  className="text-lg px-4 py-2"
+                >
+                  {result.passed ? "PASSED" : "FAILED"}
                 </Badge>
               </div>
             </CardHeader>
@@ -308,7 +477,7 @@ export default function LessonPage() {
                   Retry Lesson
                 </Button>
                 <Button
-                  onClick={() => navigate('/training')}
+                  onClick={() => navigate("/training")}
                   className="flex-1"
                 >
                   Back to Hub

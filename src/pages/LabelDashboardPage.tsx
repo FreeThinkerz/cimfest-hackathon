@@ -1,17 +1,22 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '@/store/authStore';
 import { mockArtists, genres, regions } from '@/data/mockData';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select } from '@/components/ui/select';
-import { Building2, ArrowLeft, TrendingUp, Award, MapPin } from 'lucide-react';
+import { Building2, ArrowLeft, TrendingUp, Award, MapPin, LogOut } from 'lucide-react';
+import type { LabelProfile } from '@/types/models.types';
 
 export default function LabelDashboardPage() {
   const navigate = useNavigate();
+  const { user, logout } = useAuthStore();
   const [sortBy, setSortBy] = useState('score');
   const [filterGenre, setFilterGenre] = useState('');
   const [filterRegion, setFilterRegion] = useState('');
+  
+  const labelProfile = user?.profile as LabelProfile;
 
   // Create mock artist talent data
   const artistsWithTalent = mockArtists.map((artist) => ({
@@ -40,14 +45,20 @@ export default function LabelDashboardPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-red-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="container mx-auto px-4 py-12">
-        <Button
-          variant="ghost"
-          onClick={() => navigate('/dashboard')}
-          className="mb-6"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Dashboard
-        </Button>
+        <div className="flex items-center justify-between mb-6">
+          <Button
+            variant="ghost"
+            onClick={() => navigate('/')}
+            className=""
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Home
+          </Button>
+          <Button variant="outline" onClick={logout} className="flex items-center gap-2">
+            <LogOut className="w-4 h-4" />
+            Logout
+          </Button>
+        </div>
 
         {/* Header */}
         <Card className="mb-8">
@@ -58,7 +69,7 @@ export default function LabelDashboardPage() {
                   <Building2 className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <CardTitle className="text-3xl mb-2">Label Dashboard</CardTitle>
+                  <CardTitle className="text-3xl mb-2">{labelProfile?.companyName || 'Label'} Dashboard</CardTitle>
                   <CardDescription className="text-base">
                     Discover and manage high-potential artists
                   </CardDescription>
@@ -173,7 +184,7 @@ export default function LabelDashboardPage() {
               <Card
                 key={artist.id}
                 className="group hover:shadow-2xl transition-all duration-300 cursor-pointer hover:scale-105"
-                onClick={() => navigate(`/label-portal/artist/${artist.id}`)}
+                onClick={() => navigate(`/label/artist/${artist.id}`)}
               >
                 <CardHeader>
                   <div className="flex items-start justify-between mb-2">
@@ -230,7 +241,7 @@ export default function LabelDashboardPage() {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Card className="hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate('/label-portal/mentors')}>
+          <Card className="hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate('/label/mentors')}>
             <CardHeader>
               <div className="flex items-center gap-3">
                 <TrendingUp className="w-8 h-8 text-orange-600" />
