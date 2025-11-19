@@ -1,10 +1,16 @@
-import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '@/store/authStore';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Music2, Globe, Users, Mic } from 'lucide-react';
-import MelodyTrainer from '@/components/MelodyTrainer';
-import type { MusicianProfile } from '@/types/models.types';
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/store/authStore";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Music2, Globe, Users, Mic } from "lucide-react";
+import MelodyTrainer from "@/components/MelodyTrainer";
+import type { MusicianProfile } from "@/types/models.types";
 
 export default function MelodyTrainerPage() {
   const navigate = useNavigate();
@@ -19,7 +25,7 @@ export default function MelodyTrainerPage() {
             <CardTitle>Access Denied</CardTitle>
           </CardHeader>
           <CardContent>
-            <Button onClick={() => navigate('/')}>Return Home</Button>
+            <Button onClick={() => navigate("/")}>Return Home</Button>
           </CardContent>
         </Card>
       </div>
@@ -31,7 +37,7 @@ export default function MelodyTrainerPage() {
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         <Button
           variant="ghost"
-          onClick={() => navigate('/artist-dashboard/training')}
+          onClick={() => navigate("/training")}
           className="mb-6"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -46,9 +52,12 @@ export default function MelodyTrainerPage() {
                 <Music2 className="w-8 h-8 text-white" />
               </div>
               <div>
-                <CardTitle className="text-3xl mb-2">Cameroon Melody Trainer</CardTitle>
+                <CardTitle className="text-3xl mb-2">
+                  Cameroon Melody Trainer
+                </CardTitle>
                 <CardDescription className="text-base">
-                  Practice traditional Cameroonian melodies and perfect your pitch matching skills
+                  Practice traditional Cameroonian melodies and perfect your
+                  pitch matching skills
                 </CardDescription>
               </div>
             </div>
@@ -64,7 +73,8 @@ export default function MelodyTrainerPage() {
               </div>
               <h3 className="font-semibold mb-2">Cultural Heritage</h3>
               <p className="text-sm text-muted-foreground">
-                Learn authentic Cameroonian music styles including Makossa, Bikutsi, and more
+                Learn authentic Cameroonian music styles including Makossa,
+                Bikutsi, and more
               </p>
             </CardContent>
           </Card>
@@ -76,7 +86,8 @@ export default function MelodyTrainerPage() {
               </div>
               <h3 className="font-semibold mb-2">Real-Time Pitch Detection</h3>
               <p className="text-sm text-muted-foreground">
-                Advanced pitch analysis captures your vocal performance with high accuracy
+                Advanced pitch analysis captures your vocal performance with
+                high accuracy
               </p>
             </CardContent>
           </Card>

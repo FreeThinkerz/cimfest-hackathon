@@ -1,11 +1,17 @@
-import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '@/store/authStore';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Target, Brain, Music2, Zap } from 'lucide-react';
-import DrillPractice from '@/components/DrillPractice';
-import DrillProgress from '@/components/DrillProgress';
-import type { MusicianProfile } from '@/types/models.types';
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/store/authStore";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Target, Brain, Music2, Zap } from "lucide-react";
+import DrillPractice from "@/components/DrillPractice";
+import DrillProgress from "@/components/DrillProgress";
+import type { MusicianProfile } from "@/types/models.types";
 
 export default function DrillPracticePage() {
   const navigate = useNavigate();
@@ -20,7 +26,7 @@ export default function DrillPracticePage() {
             <CardTitle>Access Denied</CardTitle>
           </CardHeader>
           <CardContent>
-            <Button onClick={() => navigate('/')}>Return Home</Button>
+            <Button onClick={() => navigate("/")}>Return Home</Button>
           </CardContent>
         </Card>
       </div>
@@ -29,7 +35,7 @@ export default function DrillPracticePage() {
 
   const handleDrillComplete = (score: number) => {
     // Here you could update user progress in the future
-    console.log('Drill completed with score:', score);
+    console.log("Drill completed with score:", score);
   };
 
   return (
@@ -37,7 +43,7 @@ export default function DrillPracticePage() {
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         <Button
           variant="ghost"
-          onClick={() => navigate('/artist-dashboard/training')}
+          onClick={() => navigate("/training")}
           className="mb-6"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -52,7 +58,9 @@ export default function DrillPracticePage() {
                 <Target className="w-8 h-8 text-white" />
               </div>
               <div>
-                <CardTitle className="text-3xl mb-2">Pitch Drill Practice</CardTitle>
+                <CardTitle className="text-3xl mb-2">
+                  Pitch Drill Practice
+                </CardTitle>
                 <CardDescription className="text-base">
                   Master your pitch accuracy with structured vocal exercises
                 </CardDescription>
@@ -63,7 +71,7 @@ export default function DrillPracticePage() {
 
         {/* Progress Overview */}
         <div className="mb-8">
-          <DrillProgress 
+          <DrillProgress
             exercisesCompleted={1}
             totalExercises={4}
             averageScore={75}
@@ -82,7 +90,8 @@ export default function DrillPracticePage() {
               </div>
               <h3 className="font-semibold mb-2">AI-Powered Analysis</h3>
               <p className="text-sm text-gray-600">
-                Real-time pitch detection with instant feedback on accuracy and stability
+                Real-time pitch detection with instant feedback on accuracy and
+                stability
               </p>
             </CardContent>
           </Card>
@@ -94,7 +103,8 @@ export default function DrillPracticePage() {
               </div>
               <h3 className="font-semibold mb-2">Structured Exercises</h3>
               <p className="text-sm text-gray-600">
-                Progressive training from basic scales to advanced chromatic runs
+                Progressive training from basic scales to advanced chromatic
+                runs
               </p>
             </CardContent>
           </Card>

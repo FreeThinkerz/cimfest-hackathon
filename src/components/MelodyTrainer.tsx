@@ -1,41 +1,51 @@
 import React from "react";
 import { useMelodyTrainer } from "@/hooks/useMelodyTrainer";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Music2, Square, Mic, Volume2, Trophy, Music } from "lucide-react";
 
-const GENRE_INFO: Record<string, { name: string; description: string; emoji: string }> = {
+const GENRE_INFO: Record<
+  string,
+  { name: string; description: string; emoji: string }
+> = {
   makossa: {
     name: "Makossa",
     description: "Upbeat urban dance music from Douala",
-    emoji: "🎺"
+    emoji: "🎺",
   },
   bikutsi: {
     name: "Bikutsi",
     description: "Traditional war dance rhythm",
-    emoji: "🥁"
+    emoji: "🥁",
   },
   njang: {
     name: "Njang",
     description: "Grassfields melodic tradition",
-    emoji: "🎵"
+    emoji: "🎵",
   },
   assiko: {
     name: "Assiko",
     description: "Coastal percussion-driven style",
-    emoji: "🎶"
+    emoji: "🎶",
   },
   mbole: {
     name: "Mbole",
     description: "Central region vocal harmony",
-    emoji: "🎤"
+    emoji: "🎤",
   },
 };
 
 export default function CameroonMelodyTrainer() {
-  const { playGenre, stop, score, isPlaying, currentGenre, musicStyles } = useMelodyTrainer();
+  const { playGenre, stop, score, isPlaying, currentGenre, musicStyles } =
+    useMelodyTrainer();
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return "text-green-600 dark:text-green-400";
@@ -44,7 +54,8 @@ export default function CameroonMelodyTrainer() {
   };
 
   const getScoreBadge = (score: number) => {
-    if (score >= 90) return { label: "Excellent!", variant: "success" as const };
+    if (score >= 90)
+      return { label: "Excellent!", variant: "success" as const };
     if (score >= 80) return { label: "Great!", variant: "success" as const };
     if (score >= 70) return { label: "Good", variant: "default" as const };
     if (score >= 60) return { label: "Fair", variant: "secondary" as const };
@@ -54,16 +65,19 @@ export default function CameroonMelodyTrainer() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="border-2 border-purple-200 dark:border-purple-800">
+      <Card className="">
         <CardHeader>
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
               <Music2 className="w-7 h-7 text-white" />
             </div>
             <div>
-              <CardTitle className="text-2xl">Cameroon Melody Trainer</CardTitle>
+              <CardTitle className="text-2xl">
+                Cameroon Melody Trainer
+              </CardTitle>
               <CardDescription className="text-base">
-                Practice traditional Cameroonian melodies and match their pitch patterns
+                Practice traditional Cameroonian melodies and match their pitch
+                patterns
               </CardDescription>
             </div>
           </div>
@@ -113,9 +127,11 @@ export default function CameroonMelodyTrainer() {
                   key={genreKey}
                   onClick={() => playGenre(genreKey)}
                   disabled={isPlaying}
-                  variant={isActive ? "default" : "outline"}
+                  variant={isActive ? "default" : "ghost"}
                   className={`h-auto p-4 flex flex-col items-start gap-2 ${
-                    isActive ? "bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600" : ""
+                    isActive
+                      ? "bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+                      : ""
                   }`}
                 >
                   <div className="flex items-center gap-2 w-full">
@@ -157,7 +173,9 @@ export default function CameroonMelodyTrainer() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Mic className="w-5 h-5 text-red-500 animate-pulse" />
-                  <span className="text-sm font-medium text-red-600 dark:text-red-400">Recording</span>
+                  <span className="text-sm font-medium text-red-600 dark:text-red-400">
+                    Recording
+                  </span>
                 </div>
               </div>
             </div>
@@ -187,30 +205,35 @@ export default function CameroonMelodyTrainer() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="text-center">
-              <div className={`text-6xl font-bold mb-2 ${getScoreColor(score)}`}>
+              <div
+                className={`text-6xl font-bold mb-2 ${getScoreColor(score)}`}
+              >
                 {score}%
               </div>
-              <Badge variant={getScoreBadge(score).variant} className="text-base px-4 py-1">
+              <Badge
+                variant={getScoreBadge(score).variant}
+                className="text-base px-4 py-1"
+              >
                 {getScoreBadge(score).label}
               </Badge>
             </div>
 
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Pitch Matching Accuracy</span>
+                <span className="text-muted-foreground">
+                  Pitch Matching Accuracy
+                </span>
                 <span className="font-medium">{score}%</span>
               </div>
               <Progress value={score} className="h-3" />
             </div>
 
             <div className="text-center text-sm text-muted-foreground pt-2 border-t">
-              {score >= 80 ? (
-                "🎉 Outstanding pitch control! Keep up the great work!"
-              ) : score >= 60 ? (
-                "💪 Good effort! Practice more to improve your pitch accuracy."
-              ) : (
-                "🎯 Keep practicing! Try to match the melody more closely."
-              )}
+              {score >= 80
+                ? "🎉 Outstanding pitch control! Keep up the great work!"
+                : score >= 60
+                  ? "💪 Good effort! Practice more to improve your pitch accuracy."
+                  : "🎯 Keep practicing! Try to match the melody more closely."}
             </div>
           </CardContent>
         </Card>

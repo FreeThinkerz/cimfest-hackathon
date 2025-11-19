@@ -25,13 +25,13 @@ import { AppLayout } from "@/layouts/app-layout";
 import ArtistDashboard from "@/pages/artist/dashboard";
 import SponsorDashboard from "@/pages/sponsor/dashboard";
 import TrainingHubPage from "./pages/artist/dashboard/training/index";
-import LessonPage from "./pages/LessonPage";
+import LessonPage from "./pages/artist/dashboard/training/lesson/show";
 import TalentScorecardPage from "./pages/artist/dashboard/training/scorecard";
 import LevelProgressionPage from "./pages/LevelProgressionPage";
 import DrillPracticePage from "./pages/artist/dashboard/training/drill-practice";
 import MelodyTrainerPage from "./pages/artist/dashboard/training/melody-trainer";
 import PromotionalGuidePage from "./pages/artist/dashboard/promotion-guide";
-import LabelDashboardPage from "./pages/LabelDashboardPage";
+import LabelDashboardPage from "./pages/sponsor/dashboard";
 import ArtistDirectoryPage from "./pages/artist/dashboard/nmd/index";
 import ArtistDetailPage from "./pages/artist/dashboard/nmd/show";
 
@@ -137,7 +137,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              {/* <Route path="artist/:id" /> */}
+              <Route path="artist/:id" />
             </Route>
 
             {/* Catch-all */}
