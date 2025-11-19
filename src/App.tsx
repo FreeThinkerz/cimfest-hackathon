@@ -29,7 +29,7 @@ import LessonPage from "./pages/LessonPage";
 import TalentScorecardPage from "./pages/artist/dashboard/training/scorecard";
 import LevelProgressionPage from "./pages/LevelProgressionPage";
 import DrillPracticePage from "./pages/artist/dashboard/training/drill-practice";
-import MelodyTrainerPage from "./pages/artist/dashboard/training/melody-trainer.tsx";
+import MelodyTrainerPage from "./pages/artist/dashboard/training/melody-trainer";
 import PromotionalGuidePage from "./pages/artist/dashboard/promotion-guide";
 import LabelDashboardPage from "./pages/LabelDashboardPage";
 import ArtistDirectoryPage from "./pages/artist/dashboard/nmd/index";

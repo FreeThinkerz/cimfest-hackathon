@@ -83,7 +83,7 @@ export default function LevelProgressionPage() {
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <Button
           variant="ghost"
-          onClick={() => navigate("/training")}
+          onClick={() => navigate("/artist-dashboard/training")}
           className="mb-6"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -252,7 +252,7 @@ export default function LevelProgressionPage() {
               <Button
                 size="lg"
                 variant="outline"
-                onClick={() => navigate("/training/scorecard")}
+                onClick={() => navigate("/artist-dashboard/training/scorecard")}
                 className="h-auto py-4"
               >
                 <div className="text-center">
@@ -267,7 +267,7 @@ export default function LevelProgressionPage() {
             <>
               <Button
                 size="lg"
-                onClick={() => navigate("/training")}
+                onClick={() => navigate("/artist-dashboard/training")}
                 className="h-auto py-4"
               >
                 <div className="text-center">
@@ -278,7 +278,7 @@ export default function LevelProgressionPage() {
               <Button
                 size="lg"
                 variant="outline"
-                onClick={() => navigate("/training/scorecard")}
+                onClick={() => navigate("/artist-dashboard/training/scorecard")}
                 className="h-auto py-4"
               >
                 <div className="text-center">

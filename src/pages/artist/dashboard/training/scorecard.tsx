@@ -92,7 +92,7 @@ export default function TalentScorecardPage() {
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         <Button
           variant="ghost"
-          onClick={() => navigate("/training")}
+          onClick={() => navigate("/artist-dashboard/training")}
           className="mb-6"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -272,7 +272,7 @@ export default function TalentScorecardPage() {
                   </li>
                 </ul>
                 <Button
-                  onClick={() => navigate("/training")}
+                  onClick={() => navigate("/artist-dashboard/training")}
                   variant="outline"
                   className="w-full mt-4"
                 >
@@ -287,7 +287,7 @@ export default function TalentScorecardPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Button
             size="lg"
-            onClick={() => navigate("/training/level-progression")}
+            onClick={() => navigate("/artist-dashboard/training/level-progression")}
             className="h-auto py-4"
           >
             <div className="text-left">

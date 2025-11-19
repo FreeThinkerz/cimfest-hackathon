@@ -289,17 +289,17 @@ const PitchAnalyzer = ({
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg">
                     <div className="text-2xl font-bold text-blue-600">
-                      {computePitchAccuracy(pitches).toFixed(1)}%
+                      {pitches.length > 0 ? computePitchAccuracy(pitches).toFixed(1) : "0.0"}%
                     </div>
                     <div className="text-sm text-gray-600">Pitch Accuracy</div>
                     <Progress
-                      value={computePitchAccuracy(pitches)}
+                      value={pitches.length > 0 ? computePitchAccuracy(pitches) : 0}
                       className="mt-2"
                     />
                   </div>
                   <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg">
                     <div className="text-2xl font-bold text-green-600">
-                      {computePitchStability().weightedStability!.toFixed(2)} Hz
+                      {data.length > 0 ? computePitchStability().weightedStability!.toFixed(2) : "0.00"} Hz
                     </div>
                     <div className="text-sm text-gray-600">Pitch Stability</div>
                     {/* <Progress
@@ -309,11 +309,11 @@ const PitchAnalyzer = ({
                   </div>
                   <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg">
                     <div className="text-2xl font-bold text-purple-600">
-                      {computeClarity(clarities).toFixed(1)}%
+                      {clarities.length > 0 ? computeClarity(clarities).toFixed(1) : "0.0"}%
                     </div>
                     <div className="text-sm text-gray-600">Voice Clarity</div>
                     <Progress
-                      value={computeClarity(clarities)}
+                      value={clarities.length > 0 ? computeClarity(clarities) : 0}
                       className="mt-2"
                     />
                   </div>

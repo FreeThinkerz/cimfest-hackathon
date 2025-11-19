@@ -16,19 +16,19 @@ export const usePitchy = () => {
   const pitches = useMemo(() => data.map((d) => d.pitch), [data]);
   const clarities = useMemo(() => data.map((d) => d.clarity), [data]);
   const average_pitch = useMemo(
-    () => pitches.reduce((acc, p) => acc + p, 0) / pitches.length,
+    () => pitches.length > 0 ? pitches.reduce((acc, p) => acc + p, 0) / pitches.length : 0,
     [pitches]
   );
 
   // Calculate standard deviation (this is the stability measure)
   const variance = useMemo(
-    () => pitches.reduce((sum, p) => sum + Math.pow(p - average_pitch, 2), 0),
-    [data]
+    () => pitches.length > 0 ? pitches.reduce((sum, p) => sum + Math.pow(p - average_pitch, 2), 0) : 0,
+    [pitches, average_pitch]
   );
   const standardDeviation = Math.sqrt(variance);
 
   // Calculate coefficient of variation (normalized stability)
-  const coefficientOfVariation = (standardDeviation / average_pitch) * 100;
+  const coefficientOfVariation = average_pitch > 0 ? (standardDeviation / average_pitch) * 100 : 0;
 
   const analyzeMedia = async (file: File) => {
     setLoading(true);

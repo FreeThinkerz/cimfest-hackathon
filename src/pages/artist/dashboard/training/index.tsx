@@ -167,7 +167,7 @@ export default function TrainingHubPage() {
                       </div>
                       <Button
                         onClick={() =>
-                          navigate(`/training/lesson/${lesson.id}`)
+                          navigate(`/artist-dashboard/training/lesson/${lesson.id}`)
                         }
                         variant={isCompleted ? "outline" : "default"}
                       >

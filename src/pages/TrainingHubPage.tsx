@@ -190,7 +190,7 @@ export default function TrainingHubPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card
             className="hover:shadow-lg transition-all cursor-pointer"
-            onClick={() => navigate("/training/drill-practice")}
+            onClick={() => navigate("/artist-dashboard/training/drill-practice")}
           >
             <CardHeader>
               <div className="flex items-center gap-3">
@@ -205,7 +205,7 @@ export default function TrainingHubPage() {
 
           <Card
             className="hover:shadow-lg transition-all cursor-pointer"
-            onClick={() => navigate("/training/melody-trainer")}
+            onClick={() => navigate("/artist-dashboard/training/melody-trainer")}
           >
             <CardHeader>
               <div className="flex items-center gap-3">
@@ -220,7 +220,7 @@ export default function TrainingHubPage() {
 
           <Card
             className="hover:shadow-lg transition-all cursor-pointer"
-            onClick={() => navigate("/training/scorecard")}
+            onClick={() => navigate("/artist-dashboard/training/scorecard")}
           >
             <CardHeader>
               <div className="flex items-center gap-3">
@@ -237,7 +237,7 @@ export default function TrainingHubPage() {
 
           <Card
             className="hover:shadow-lg transition-all cursor-pointer"
-            onClick={() => navigate("/training/level-progression")}
+            onClick={() => navigate("/artist-dashboard/training/level-progression")}
           >
             <CardHeader>
               <div className="flex items-center gap-3">

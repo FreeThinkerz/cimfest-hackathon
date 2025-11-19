@@ -45,7 +45,7 @@ export default function LessonPage() {
             <CardTitle>Lesson Not Found</CardTitle>
           </CardHeader>
           <CardContent>
-            <Button onClick={() => navigate("/training")}>
+            <Button onClick={() => navigate("/artist-dashboard/training")}>
               Back to Training Hub
             </Button>
           </CardContent>
@@ -150,7 +150,7 @@ export default function LessonPage() {
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <Button
           variant="ghost"
-          onClick={() => navigate("/training")}
+          onClick={() => navigate("/artist-dashboard/training")}
           className="mb-6"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -228,7 +228,7 @@ export default function LessonPage() {
                       drill exercises with real-time feedback.
                     </p>
                     <Button
-                      onClick={() => navigate("/training/drill-practice")}
+                      onClick={() => navigate("/artist-dashboard/training/drill-practice")}
                       variant="outline"
                       className="w-full"
                     >
@@ -477,7 +477,7 @@ export default function LessonPage() {
                   Retry Lesson
                 </Button>
                 <Button
-                  onClick={() => navigate("/training")}
+                  onClick={() => navigate("/artist-dashboard/training")}
                   className="flex-1"
                 >
                   Back to Hub
