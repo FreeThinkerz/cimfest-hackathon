@@ -1,5 +1,5 @@
-import { useState, useRef } from "react";
-import { usePitchAnalysis } from "../hooks/usePitchAnalysis";
+import { useState, useRef, useMemo, useEffect } from "react";
+import { usePitchAnalysis, usePitchy } from "../hooks/usePitchAnalysis";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -16,15 +16,30 @@ const PitchAnalyzer = ({
   mode = "assessment",
 }: PitchAnalyzerProps) => {
   const {
-    analyzeAudio,
+    result,
+    average,
     score,
-    analysis,
-    loading,
+    analyzeAudio,
+    // loading,
     startRealtimeAnalysis,
     stopRealtimeAnalysis,
     isListening,
     realtimeData,
   } = usePitchAnalysis();
+
+  const {
+    analyzeMedia,
+    loading,
+    data,
+    pitches,
+    clarities,
+    computeClarity,
+    computePitchStability,
+    computePitchAccuracy,
+    rating,
+  } = usePitchy();
+
+  useEffect(() => console.log(rating), [rating]);
 
   const [file, setFile] = useState<File | null>(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -70,7 +85,8 @@ const PitchAnalyzer = ({
   };
 
   const handleAnalyzeButton = () => {
-    if (file) analyzeAudio(file);
+    console.log("file in the analyse folder", file);
+    if (file) analyzeMedia(file);
   };
 
   const handleStartRealtime = () => {
@@ -171,7 +187,7 @@ const PitchAnalyzer = ({
                 ) : (
                   <Button onClick={handleStop} className="flex-1">
                     <Square className="w-4 h-4 mr-2" />
-                    Stop Recording
+                    {}s Stop Recording
                   </Button>
                 )}
               </div>
@@ -259,38 +275,47 @@ const PitchAnalyzer = ({
           )}
 
           {/* Analysis Results */}
-          {score !== null && analysis && (
+          {data.length ? (
             <Card className="bg-blue-50 dark:bg-blue-900/20">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span>Analysis Results</span>
-                  <Badge variant="outline" className={getScoreColor(score)}>
+                  {/* <Badge variant="outline" className={getScoreColor(score)}>
                     {score.toFixed(1)}/100
-                  </Badge>
+                  </Badge> */}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg">
                     <div className="text-2xl font-bold text-blue-600">
-                      {analysis.accuracy.toFixed(1)}%
+                      {computePitchAccuracy(pitches).toFixed(1)}%
                     </div>
                     <div className="text-sm text-gray-600">Pitch Accuracy</div>
-                    <Progress value={analysis.accuracy} className="mt-2" />
+                    <Progress
+                      value={computePitchAccuracy(pitches)}
+                      className="mt-2"
+                    />
                   </div>
                   <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg">
                     <div className="text-2xl font-bold text-green-600">
-                      {analysis.stability.toFixed(1)}%
+                      {computePitchStability().weightedStability!.toFixed(2)} Hz
                     </div>
                     <div className="text-sm text-gray-600">Pitch Stability</div>
-                    <Progress value={analysis.stability} className="mt-2" />
+                    {/* <Progress
+                      value={computePitchStability().stability!}
+                      className="mt-2"
+                    /> */}
                   </div>
                   <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg">
                     <div className="text-2xl font-bold text-purple-600">
-                      {analysis.clarityScore.toFixed(1)}%
+                      {computeClarity(clarities).toFixed(1)}%
                     </div>
                     <div className="text-sm text-gray-600">Voice Clarity</div>
-                    <Progress value={analysis.clarityScore} className="mt-2" />
+                    <Progress
+                      value={computeClarity(clarities)}
+                      className="mt-2"
+                    />
                   </div>
                 </div>
 
@@ -299,18 +324,22 @@ const PitchAnalyzer = ({
                   <div>
                     <h4 className="font-semibold mb-2">Pitch Statistics</h4>
                     <div className="space-y-1 text-sm">
-                      <div>Average: {analysis.averagePitch.toFixed(1)} Hz</div>
                       <div>
-                        Range: {analysis.pitchRange.min.toFixed(1)} -{" "}
-                        {analysis.pitchRange.max.toFixed(1)} Hz
+                        Average: {computePitchAccuracy(pitches).toFixed(1)} Hz
                       </div>
-                      <div>Notes detected: {analysis.pitches.length}</div>
+                      {/* <div>
+                        Range:{" "}
+                        {Math.min(...result.map((d) => d.pitch)).toFixed(1)} -
+                        {""}
+                        {Math.max(...result.map((d) => d.pitch)).toFixed(1)} Hz
+                      </div>
+                      <div>Notes detected: {result.length}</div> */}
                     </div>
                   </div>
                   <div>
                     <h4 className="font-semibold mb-2">Performance Feedback</h4>
                     <div className="space-y-1 text-sm">
-                      <div>
+                      {/* <div>
                         Accuracy:{" "}
                         {analysis.accuracy >= 85
                           ? "Excellent"
@@ -325,20 +354,15 @@ const PitchAnalyzer = ({
                           : analysis.stability >= 60
                           ? "Stable"
                           : "Work on Consistency"}
-                      </div>
-                      <div>
-                        Clarity:{" "}
-                        {analysis.clarityScore >= 80
-                          ? "Clear Voice"
-                          : analysis.clarityScore >= 60
-                          ? "Good Clarity"
-                          : "Improve Diction"}
-                      </div>
+                      </div> */}
+                      <div>Clarity: {rating}</div>
                     </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
+          ) : (
+            <p>no pitch and clarities</p>
           )}
 
           {/* Loading state */}
