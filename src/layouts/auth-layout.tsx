@@ -15,6 +15,7 @@ export const AuthLayout = ({ title, subtitle, children }: AuthLayoutProps) => {
 
         <div className="max-w-md w-full relative z-10 animate-fade-in-up">
           <div className="text-center mb-8">
+            <h4 className="font-semibold mb-3">MusicMentor</h4>
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 mb-4 animate-glow-pulse">
               <Music2 className="w-10 h-10 text-background" />
             </div>

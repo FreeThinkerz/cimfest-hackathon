@@ -191,7 +191,11 @@ const Register = () => {
             />
           </div>
 
-          <Button type="submit" className="w-full " disabled={loading}>
+          <Button
+            type="submit"
+            className="w-full bg-gradient-to-r from-purple-600 to-blue-600"
+            disabled={loading}
+          >
             {loading ? "Please wait..." : "Create Account"}
           </Button>
         </form>

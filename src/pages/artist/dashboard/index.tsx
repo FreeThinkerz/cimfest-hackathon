@@ -9,10 +9,12 @@ import {
 } from "@/components/ui/card";
 import { Database, Brain, GraduationCap, Music, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { HeroSection } from "@/components/ui/hero-section";
 
 export default function DashboardPage() {
   const navigate = useNavigate();
   const { user, logout } = useAuthStore();
+  const userName = user?.artist_name ?? "Artist";
 
   const sections = [
     {
@@ -34,19 +36,11 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen ">
       <div className="container mx-auto px-4 py-12">
-        {/* Header */}
-        <div className="text-center mb-12 space-y-4">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-purple-600 to-blue-600 rounded-3xl mb-4">
-            <Music className="w-10 h-10 text-white" />
-          </div>
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            Welcome, {user.artist_name || "Artist"}
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Your journey to music excellence starts here. Choose a pillar to
-            explore
-          </p>
-        </div>
+        {/* Hero */}
+        <HeroSection
+          userName={userName}
+          subtitle="Your journey to music excellence starts here. Choose a pillar to explore"
+        />
 
         {/* Four Pillars Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2  gap-6 max-w-6xl mx-auto">
@@ -82,10 +76,6 @@ export default function DashboardPage() {
             <Card className="text-background transition-all duration-300 cursor-pointer border border-slate-600 bg-slate-500/10  ">
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle>Your Profile</CardTitle>
-                <Button onClick={logout} className="flex items-center gap-2">
-                  <LogOut className="w-4 h-4" />
-                  Logout
-                </Button>
               </CardHeader>
               <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="text-center p-4 bg-purple-600/40 rounded-lg">
@@ -102,13 +92,13 @@ export default function DashboardPage() {
                 </div>
                 <div className="text-center p-4 bg-green-900/20 rounded-lg">
                   <div className="text-2xl font-bold text-green-600 capitalize">
-                    {user?.level}
+                    {user?.talent_level}
                   </div>
                   <div className="text-sm text-muted-foreground">Level</div>
                 </div>
                 <div className="text-center p-4 bg-orange-900/20 rounded-lg">
                   <div className="text-2xl font-bold text-orange-600">
-                    {user?.lessonsCompleted?.length}/3
+                    {user?.lessonsCompleted?.length ?? 0}/3
                   </div>
                   <div className="text-sm text-muted-foreground">Lessons</div>
                 </div>

@@ -23,7 +23,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
     <>
       {loading && (
         <div className="fixed inset-0 bg-slate-900 flex items-center justify-center z-50">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-slate-400"></div>
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-slate-400 border-b-purple-600 border-t-blue-600"></div>
         </div>
       )}
       {children}
