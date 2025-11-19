@@ -87,7 +87,7 @@ const Register = () => {
         <div className="grid grid-cols-2 gap-4">
           <div
             className={`border rounded-xl p-4 cursor-pointer transition 
-            ${role === "artist" ? "border-primary bg-primary/10" : "border-border"}`}
+            ${role === "artist" ? "border-slate-400 bg-slate-400/10" : "border-none"}`}
             onClick={() => setRole("artist")}
           >
             <h4 className="font-semibold">Artist</h4>
@@ -98,7 +98,7 @@ const Register = () => {
 
           <div
             className={`border rounded-xl p-4 cursor-pointer transition
-            ${role === "sponsor" ? "border-primary bg-primary/10" : "border-border"}`}
+            ${role === "sponsor" ? "border-slate-400 bg-slate-400/10" : "border-none"}`}
             onClick={() => setRole("sponsor")}
           >
             <h4 className="font-semibold">Sponsor</h4>
@@ -202,7 +202,7 @@ const Register = () => {
         onClick={() => navigate("/login")}
       >
         Already have an account?{" "}
-        <span className="text-primary hover:underline">Login</span>
+        <span className="text-slate-400 hover:underline">Login</span>
       </p>
     </AuthLayout>
   );

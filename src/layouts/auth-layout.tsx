@@ -24,7 +24,7 @@ export const AuthLayout = ({ title, subtitle, children }: AuthLayoutProps) => {
             <p className="text-muted-foreground">{subtitle}</p>
           </div>
 
-          <div className="card-gradient rounded-2xl p-8 border border-border space-y-6">
+          <div className=" rounded-2xl p-8 space-y-6 text-background">
             {children}
           </div>
         </div>

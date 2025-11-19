@@ -108,23 +108,19 @@ const PitchAnalyzer = ({
           {/* Mode Selection */}
           <div className="flex gap-2">
             <Button
-              variant={analysisMode === "upload" ? "default" : "outline"}
+              variant={analysisMode === "upload" ? "default" : "ghost"}
               onClick={() => setAnalysisMode("upload")}
               size="sm"
             >
               <Upload className="w-4 h-4 mr-2" />
               Upload
             </Button>
-            <Button
-              variant={analysisMode === "record" ? "default" : "outline"}
-              onClick={() => setAnalysisMode("record")}
-              size="sm"
-            >
+            <Button onClick={() => setAnalysisMode("record")} size="sm">
               <Square className="w-4 h-4 mr-2" />
               Record
             </Button>
             <Button
-              variant={analysisMode === "realtime" ? "default" : "outline"}
+              variant={analysisMode === "realtime" ? "default" : "ghost"}
               onClick={() => setAnalysisMode("realtime")}
               size="sm"
             >
@@ -162,7 +158,7 @@ const PitchAnalyzer = ({
                 {!isRecording ? (
                   <Button
                     onClick={handleRecord}
-                    variant="outline"
+                    variant="ghost"
                     className="flex-1"
                   >
                     <Mic className="w-4 h-4 mr-2" />
@@ -264,7 +260,7 @@ const PitchAnalyzer = ({
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span>Analysis Results</span>
-                  <Badge variant="outline" className={getScoreColor(score)}>
+                  <Badge className={getScoreColor(score)}>
                     {score.toFixed(1)}/100
                   </Badge>
                 </CardTitle>
@@ -315,24 +311,24 @@ const PitchAnalyzer = ({
                         {analysis.accuracy >= 85
                           ? "Excellent"
                           : analysis.accuracy >= 70
-                          ? "Good"
-                          : "Needs Practice"}
+                            ? "Good"
+                            : "Needs Practice"}
                       </div>
                       <div>
                         Stability:{" "}
                         {analysis.stability >= 80
                           ? "Very Stable"
                           : analysis.stability >= 60
-                          ? "Stable"
-                          : "Work on Consistency"}
+                            ? "Stable"
+                            : "Work on Consistency"}
                       </div>
                       <div>
                         Clarity:{" "}
                         {analysis.clarityScore >= 80
                           ? "Clear Voice"
                           : analysis.clarityScore >= 60
-                          ? "Good Clarity"
-                          : "Improve Diction"}
+                            ? "Good Clarity"
+                            : "Improve Diction"}
                       </div>
                     </div>
                   </div>

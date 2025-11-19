@@ -19,15 +19,11 @@ export default function ArtistDirectoryPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen  ">
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
         <div className="mb-8">
-          <Button
-            variant="ghost"
-            onClick={() => navigate("/dashboard")}
-            className="mb-4"
-          >
+          <Button onClick={() => navigate("/")} className="mb-4">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Dashboard
           </Button>
@@ -45,7 +41,7 @@ export default function ArtistDirectoryPage() {
         </div>
 
         {/* Filters */}
-        <Card className="mb-8">
+        <Card className="mb-8 text-background">
           <CardContent className="pt-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
@@ -90,7 +86,7 @@ export default function ArtistDirectoryPage() {
           {filteredArtists.map((artist) => (
             <Card
               key={artist.id}
-              className="group hover:shadow-2xl transition-all duration-300 cursor-pointer hover:scale-105"
+              className="group hover:shadow-2xl text-background transition-all duration-300 cursor-pointer hover:scale-105"
               onClick={() => navigate(`${artist.id}`)}
             >
               <CardHeader>
@@ -101,7 +97,7 @@ export default function ArtistDirectoryPage() {
                     </CardTitle>
                     <div className="flex flex-wrap gap-2 mb-3">
                       <Badge variant="secondary">{artist.genre}</Badge>
-                      <Badge variant="outline">{artist.region}</Badge>
+                      <Badge>{artist.region}</Badge>
                     </div>
                   </div>
                   <div className="text-right">

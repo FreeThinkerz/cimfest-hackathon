@@ -41,13 +41,9 @@ export default function TrainingHubPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen ">
       <div className="container mx-auto px-4 py-12 max-w-6xl">
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/artist-dashboard")}
-          className="mb-6"
-        >
+        <Button onClick={() => navigate("/artist-dashboard")} className="mb-6">
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Dashboard
         </Button>
@@ -90,7 +86,7 @@ export default function TrainingHubPage() {
           </CardContent>
         </Card>
 
-        {/* Profile Card */}
+        {/* Profile Card 
         <Card className="mb-8">
           <CardHeader>
             <CardTitle>Your Profile</CardTitle>
@@ -117,7 +113,7 @@ export default function TrainingHubPage() {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </Card>*/}
 
         {/* Training Modules */}
         <div className="mb-8">

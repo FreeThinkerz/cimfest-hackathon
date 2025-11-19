@@ -20,7 +20,6 @@ const Login = () => {
 
     try {
       const response = await apiClient.post("/login", formData);
-      console.log(response);
 
       // Save tokens
       localStorage.setItem("access_token", response.token);
@@ -63,7 +62,11 @@ const Login = () => {
           }
         />
 
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button
+          type="submit"
+          className="w-full bg-gradient-to-r from-purple-600 to-blue-600"
+          disabled={loading}
+        >
           {loading ? "Logging in..." : "Login"}
         </Button>
 
@@ -72,7 +75,7 @@ const Login = () => {
           onClick={() => navigate("/register")}
         >
           Don't have an account?{" "}
-          <span className="text-primary hover:underline">Register</span>
+          <span className="text-slate-400 hover:underline">Register</span>
         </p>
       </form>
     </AuthLayout>

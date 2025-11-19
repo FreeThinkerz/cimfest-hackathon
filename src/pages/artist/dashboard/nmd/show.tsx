@@ -24,7 +24,9 @@ export default function ArtistDetailPage() {
             <CardTitle>Artist Not Found</CardTitle>
           </CardHeader>
           <CardContent>
-            <Button onClick={() => navigate("/nmd")}>Back to Directory</Button>
+            <Button onClick={() => navigate("/artist-dashboard/nmd")}>
+              Back to Directory
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -32,11 +34,11 @@ export default function ArtistDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen ">
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         <Button
           variant="ghost"
-          onClick={() => navigate("/nmd")}
+          onClick={() => navigate("/artist-dashboard/nmd")}
           className="mb-6"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -44,7 +46,7 @@ export default function ArtistDetailPage() {
         </Button>
 
         {/* Artist Header */}
-        <Card className="mb-8">
+        <Card className="mb-8 text-background">
           <CardHeader>
             <div className="flex items-start justify-between">
               <div>
@@ -70,7 +72,7 @@ export default function ArtistDetailPage() {
 
         {/* Performance Analytics */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card>
+          <Card className="text-background">
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center">
@@ -95,7 +97,7 @@ export default function ArtistDetailPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="text-background">
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center">
@@ -120,7 +122,7 @@ export default function ArtistDetailPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="text-background">
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center">
@@ -147,7 +149,7 @@ export default function ArtistDetailPage() {
         </div>
 
         {/* Strengths */}
-        <Card className="mb-8">
+        <Card className="mb-8 text-background">
           <CardHeader>
             <CardTitle>Promotional Strengths</CardTitle>
             <CardDescription>Key factors driving their success</CardDescription>
@@ -186,7 +188,7 @@ export default function ArtistDetailPage() {
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {artist.youtubeLink && (
-                <Button variant="outline" className="w-full" asChild>
+                <Button className="w-full" asChild>
                   <a
                     href={artist.youtubeLink}
                     target="_blank"
@@ -198,7 +200,7 @@ export default function ArtistDetailPage() {
                 </Button>
               )}
               {artist.tiktokLink && (
-                <Button variant="outline" className="w-full" asChild>
+                <Button className="w-full" asChild>
                   <a
                     href={artist.tiktokLink}
                     target="_blank"
@@ -210,7 +212,7 @@ export default function ArtistDetailPage() {
                 </Button>
               )}
               {artist.spotifyLink && (
-                <Button variant="outline" className="w-full" asChild>
+                <Button className="w-full" asChild>
                   <a
                     href={artist.spotifyLink}
                     target="_blank"
@@ -222,7 +224,7 @@ export default function ArtistDetailPage() {
                 </Button>
               )}
               {artist.boomplayLink && (
-                <Button variant="outline" className="w-full" asChild>
+                <Button className="w-full" asChild>
                   <a
                     href={artist.boomplayLink}
                     target="_blank"

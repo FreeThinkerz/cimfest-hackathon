@@ -29,13 +29,6 @@ export default function DashboardPage() {
       path: "training",
       color: "from-purple-500 to-pink-500",
     },
-    {
-      title: "Promotional Education Guide",
-      description: "Learn data-driven promotional strategies",
-      icon: GraduationCap,
-      path: "promotional-guide",
-      color: "from-green-500 to-emerald-500",
-    },
   ];
 
   return (
@@ -56,11 +49,11 @@ export default function DashboardPage() {
         </div>
 
         {/* Four Pillars Grid */}
-        <div className="grid grid-cols-1  gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2  gap-6 max-w-6xl mx-auto">
           {sections.map((section) => (
             <Card
               key={section.path}
-              className=" hover:shadow-2xl bg-transparent transition-all duration-300 cursor-pointer border-2 hover:border-purple-400 hover:scale-105"
+              className=" hover:shadow-2xl  text-background transition-all duration-300 cursor-pointer border border-slate-600 bg-slate-500/10  hover:border-purple-400 hover:scale-105"
               onClick={() => navigate(section.path)}
             >
               <CardHeader className="space-y-4">
@@ -69,7 +62,7 @@ export default function DashboardPage() {
                 >
                   <section.icon className="w-8 h-8 text-white" />
                 </div>
-                <CardTitle className="text-2xl">{section.title}</CardTitle>
+                <CardTitle className="text-2xl ">{section.title}</CardTitle>
                 <CardDescription className="text-base">
                   {section.description}
                 </CardDescription>
@@ -86,38 +79,34 @@ export default function DashboardPage() {
         {/* User Stats */}
         {user && (
           <div className="mt-12 max-w-4xl mx-auto">
-            <Card>
+            <Card className="text-background transition-all duration-300 cursor-pointer border border-slate-600 bg-slate-500/10  ">
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle>Your Profile</CardTitle>
-                <Button
-                  variant="outline"
-                  onClick={logout}
-                  className="flex items-center gap-2"
-                >
+                <Button onClick={logout} className="flex items-center gap-2">
                   <LogOut className="w-4 h-4" />
                   Logout
                 </Button>
               </CardHeader>
               <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                <div className="text-center p-4 bg-purple-600/40 rounded-lg">
                   <div className="text-2xl font-bold text-purple-600">
                     {user?.genre}
                   </div>
                   <div className="text-sm text-muted-foreground">Genre</div>
                 </div>
-                <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                <div className="text-center p-4 bg-blue-400/20 rounded-lg">
                   <div className="text-2xl font-bold text-blue-600">
                     {user?.region}
                   </div>
                   <div className="text-sm text-muted-foreground">Region</div>
                 </div>
-                <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                <div className="text-center p-4 bg-green-900/20 rounded-lg">
                   <div className="text-2xl font-bold text-green-600 capitalize">
                     {user?.level}
                   </div>
                   <div className="text-sm text-muted-foreground">Level</div>
                 </div>
-                <div className="text-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+                <div className="text-center p-4 bg-orange-900/20 rounded-lg">
                   <div className="text-2xl font-bold text-orange-600">
                     {user?.lessonsCompleted?.length}/3
                   </div>

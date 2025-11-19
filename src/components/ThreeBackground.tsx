@@ -124,7 +124,7 @@ export const ThreeBackground = () => {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 -z-10 pointer-events-none opacity-40 bg-background"
+      className="fixed inset-0 -z-10 pointer-events-none  bg-slate-900/95"
     />
   );
 };

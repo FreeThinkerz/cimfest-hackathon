@@ -1,7 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Trophy, Target, TrendingUp } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Trophy, Target, TrendingUp } from "lucide-react";
 
 interface DrillProgressProps {
   exercisesCompleted?: number;
@@ -18,26 +18,26 @@ export default function DrillProgress({
   averageScore = 0,
   bestScore = 0,
   sessionsToday = 0,
-  streak = 0
+  streak = 0,
 }: DrillProgressProps) {
   const progressPercentage = (exercisesCompleted / totalExercises) * 100;
 
   const getScoreColor = (score: number) => {
-    if (score >= 85) return 'text-green-600';
-    if (score >= 70) return 'text-yellow-600';
-    return 'text-red-600';
+    if (score >= 85) return "text-green-600";
+    if (score >= 70) return "text-yellow-600";
+    return "text-red-600";
   };
 
   const getProgressMessage = () => {
-    if (progressPercentage === 100) return 'All exercises mastered! 🎉';
-    if (progressPercentage >= 75) return 'Almost there! Keep practicing! 💪';
-    if (progressPercentage >= 50) return 'Good progress! You\'re halfway! 🎵';
-    if (progressPercentage >= 25) return 'Getting started! Keep going! 🌟';
-    return 'Begin your pitch training journey! 🎯';
+    if (progressPercentage === 100) return "All exercises mastered! 🎉";
+    if (progressPercentage >= 75) return "Almost there! Keep practicing! 💪";
+    if (progressPercentage >= 50) return "Good progress! You're halfway! 🎵";
+    if (progressPercentage >= 25) return "Getting started! Keep going! 🌟";
+    return "Begin your pitch training journey! 🎯";
   };
 
   return (
-    <Card className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
+    <Card className="">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Trophy className="w-5 h-5 text-yellow-600" />
@@ -54,13 +54,17 @@ export default function DrillProgress({
             </span>
           </div>
           <Progress value={progressPercentage} className="h-3" />
-          <p className="text-sm text-gray-600 text-center">{getProgressMessage()}</p>
+          <p className="text-sm text-gray-600 text-center">
+            {getProgressMessage()}
+          </p>
         </div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg">
-            <div className={`text-2xl font-bold ${getScoreColor(averageScore)}`}>
+            <div
+              className={`text-2xl font-bold ${getScoreColor(averageScore)}`}
+            >
               {averageScore.toFixed(1)}%
             </div>
             <div className="text-xs text-gray-600">Average Score</div>
@@ -81,9 +85,7 @@ export default function DrillProgress({
           </div>
 
           <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg">
-            <div className="text-2xl font-bold text-purple-600">
-              {streak}
-            </div>
+            <div className="text-2xl font-bold text-purple-600">{streak}</div>
             <div className="text-xs text-gray-600">Day Streak</div>
           </div>
         </div>
@@ -96,14 +98,15 @@ export default function DrillProgress({
           </h4>
           <div className="flex flex-wrap gap-2">
             {averageScore >= 90 && (
-              <Badge variant="default" className="bg-yellow-100 text-yellow-800">
+              <Badge
+                variant="default"
+                className="bg-yellow-100 text-yellow-800"
+              >
                 🏆 Excellence
               </Badge>
             )}
             {exercisesCompleted >= 1 && (
-              <Badge variant="secondary">
-                🎯 First Exercise
-              </Badge>
+              <Badge variant="secondary">🎯 First Exercise</Badge>
             )}
             {exercisesCompleted >= totalExercises && (
               <Badge variant="default" className="bg-green-100 text-green-800">
@@ -116,7 +119,10 @@ export default function DrillProgress({
               </Badge>
             )}
             {sessionsToday >= 3 && (
-              <Badge variant="default" className="bg-purple-100 text-purple-800">
+              <Badge
+                variant="default"
+                className="bg-purple-100 text-purple-800"
+              >
                 💪 Dedicated
               </Badge>
             )}
@@ -124,7 +130,7 @@ export default function DrillProgress({
         </div>
 
         {/* Quick Tips */}
-        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+        <div className=" rounded-lg p-4">
           <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
             <TrendingUp className="w-4 h-4" />
             Practice Tips
@@ -140,3 +146,4 @@ export default function DrillProgress({
     </Card>
   );
 }
+

@@ -38,11 +38,10 @@ export default function DrillPracticePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen ">
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         <Button
-          variant="ghost"
-          onClick={() => navigate("/training")}
+          onClick={() => navigate("/artist-dashboard/training")}
           className="mb-6"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -53,8 +52,8 @@ export default function DrillPracticePage() {
         <Card className="mb-8">
           <CardHeader>
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
-                <Target className="w-8 h-8 text-white" />
+              <div className="w-16 h-16  rounded-2xl flex items-center justify-center">
+                <Target className="w-8 h-8 " />
               </div>
               <div>
                 <CardTitle className="text-3xl mb-2">
