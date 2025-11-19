@@ -1,7 +1,8 @@
 import axios, { AxiosError } from "axios";
 
-const API_BASE_URL = import.meta.env.API_BASE_URL;
+const API_BASE_URL = "http://192.168.1.154:8000/api";
 
+console.log(API_BASE_URL);
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -50,7 +51,7 @@ async function refreshToken(): Promise<string> {
 
 apiClient.interceptors.response.use(
   (response) => response.data, // extract `data`
-  
+
   async (error: AxiosError) => {
     const originalRequest: any = error.config;
 
@@ -98,8 +99,7 @@ apiClient.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export { apiClient };
-

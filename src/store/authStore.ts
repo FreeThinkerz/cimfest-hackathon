@@ -1,7 +1,7 @@
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
-import type { User, UserRole } from '@/types/models.types';
+import type { User, UserRole } from "@/types/models.types";
 
 interface AuthState {
   user: User | null;
@@ -23,7 +23,7 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
 
       setAuth: ({ user, token }) => {
-        localStorage.setItem('accessToken', token);
+        localStorage.setItem("accessToken", token);
         set(() => ({
           user,
           accessToken: token,
@@ -32,7 +32,7 @@ export const useAuthStore = create<AuthState>()(
       },
 
       logout: () => {
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem("accessToken");
         set(() => ({
           user: null,
           accessToken: null,
@@ -42,28 +42,27 @@ export const useAuthStore = create<AuthState>()(
 
       hasRole: (role: UserRole) => {
         const { user } = get();
-        return user?.role === role;
+        return user?.roles[0] === role;
       },
 
       isMusician: () => {
         const { user } = get();
-        return user?.role === 'MUSICIAN';
+        return user?.roles[0] === "artist";
       },
 
       isLabel: () => {
         const { user } = get();
-        return user?.role === 'LABEL';
+        return user?.roles[0] === "sponsor";
       },
     }),
 
     {
-      name: 'auth-storage',
+      name: "auth-storage",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         user: state.user,
         isAuthenticated: state.isAuthenticated,
       }),
-    }
-  )
+    },
+  ),
 );
-

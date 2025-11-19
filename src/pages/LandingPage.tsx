@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Music, Building2, ArrowRight } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Music, Building2, ArrowRight } from "lucide-react";
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ export default function LandingPage() {
       <div className="w-full max-w-6xl">
         <div className="text-center mb-12">
           <h1 className="text-6xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-4">
-            CIMFEST
+            AFROHUB
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300">
             Cameroon's Premier Music Development Platform
@@ -19,8 +19,10 @@ export default function LandingPage() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <Card className="hover:shadow-2xl transition-shadow cursor-pointer group"
-                onClick={() => navigate('/musician/signup')}>
+          <Card
+            className="hover:shadow-2xl transition-shadow cursor-pointer group"
+            onClick={() => navigate("/musician/signup")}
+          >
             <CardHeader className="text-center space-y-4">
               <div className="mx-auto w-20 h-20 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
                 <Music className="w-10 h-10 text-white" />
@@ -41,8 +43,10 @@ export default function LandingPage() {
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-2xl transition-shadow cursor-pointer group"
-                onClick={() => navigate('/label/login')}>
+          <Card
+            className="hover:shadow-2xl transition-shadow cursor-pointer group"
+            onClick={() => navigate("/label/login")}
+          >
             <CardHeader className="text-center space-y-4">
               <div className="mx-auto w-20 h-20 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
                 <Building2 className="w-10 h-10 text-white" />
@@ -67,3 +71,4 @@ export default function LandingPage() {
     </div>
   );
 }
+

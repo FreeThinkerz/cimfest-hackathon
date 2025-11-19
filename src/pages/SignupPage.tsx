@@ -1,22 +1,28 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useUserStore } from '@/store/userStore';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select } from '@/components/ui/select';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { genres, regions } from '@/data/mockData';
-import { Music } from 'lucide-react';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useUserStore } from "@/store/userStore";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select } from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { genres, regions } from "@/data/mockData";
+import { Music } from "lucide-react";
 
 export default function SignupPage() {
   const navigate = useNavigate();
   const setUser = useUserStore((state) => state.setUser);
   const [formData, setFormData] = useState({
-    fullName: '',
-    stageName: '',
-    genre: '',
-    region: '',
+    fullName: "",
+    stageName: "",
+    genre: "",
+    region: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -27,13 +33,13 @@ export default function SignupPage() {
       stageName: formData.stageName,
       genre: formData.genre,
       region: formData.region,
-      level: 'basic' as const,
+      level: "basic" as const,
       talentScores: null,
       lessonsCompleted: [],
       createdAt: new Date().toISOString(),
     };
     setUser(user);
-    navigate('/dashboard');
+    navigate("/dashboard");
   };
 
   return (
@@ -44,7 +50,7 @@ export default function SignupPage() {
             <Music className="w-8 h-8 text-white" />
           </div>
           <CardTitle className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            Welcome to CIMFEST
+            Welcome to AfroHub
           </CardTitle>
           <CardDescription className="text-lg">
             Join Cameroon's premier music development platform
@@ -58,7 +64,9 @@ export default function SignupPage() {
                 id="fullName"
                 placeholder="Enter your full name"
                 value={formData.fullName}
-                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, fullName: e.target.value })
+                }
                 required
                 className="h-12"
               />
@@ -70,7 +78,9 @@ export default function SignupPage() {
                 id="stageName"
                 placeholder="Your artist name"
                 value={formData.stageName}
-                onChange={(e) => setFormData({ ...formData, stageName: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, stageName: e.target.value })
+                }
                 required
                 className="h-12"
               />
@@ -81,7 +91,9 @@ export default function SignupPage() {
               <Select
                 id="genre"
                 value={formData.genre}
-                onChange={(e) => setFormData({ ...formData, genre: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, genre: e.target.value })
+                }
                 required
                 className="h-12"
               >
@@ -99,7 +111,9 @@ export default function SignupPage() {
               <Select
                 id="region"
                 value={formData.region}
-                onChange={(e) => setFormData({ ...formData, region: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, region: e.target.value })
+                }
                 required
                 className="h-12"
               >
@@ -112,7 +126,11 @@ export default function SignupPage() {
               </Select>
             </div>
 
-            <Button type="submit" className="w-full h-12 text-lg font-semibold" size="lg">
+            <Button
+              type="submit"
+              className="w-full h-12 text-lg font-semibold"
+              size="lg"
+            >
               Enter Platform
             </Button>
           </form>

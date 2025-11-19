@@ -14,28 +14,26 @@ export default function DashboardPage() {
   const navigate = useNavigate();
   const { user, logout } = useAuthStore();
 
-  const musicianProfile = user?.profile as MusicianProfile;
-
   const sections = [
     {
       title: "National Music Database",
       description: "Explore top and rising Cameroonian artists",
       icon: Database,
-      path: "/nmd",
+      path: "nmd",
       color: "from-blue-500 to-cyan-500",
     },
     {
       title: "AI Music Training & Talent Scoring",
       description: "Develop your skills and get AI-powered feedback",
       icon: Brain,
-      path: "/training",
+      path: "training",
       color: "from-purple-500 to-pink-500",
     },
     {
       title: "Promotional Education Guide",
       description: "Learn data-driven promotional strategies",
       icon: GraduationCap,
-      path: "/promotional-guide",
+      path: "promotional-guide",
       color: "from-green-500 to-emerald-500",
     },
   ];
@@ -45,11 +43,11 @@ export default function DashboardPage() {
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12 space-y-4">
-          <div className="inline-flex items-center justify-center w-20 h-20  rounded-3xl mb-4">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-purple-600 to-blue-600 rounded-3xl mb-4">
             <Music className="w-10 h-10 text-white" />
           </div>
-          <h1 className="text-5xl font-bold bg-clip-text text-transparent">
-            Welcome, {musicianProfile?.stageName || "Artist"}
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            Welcome, {user.artist_name || "Artist"}
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Your journey to music excellence starts here. Choose a pillar to
@@ -58,11 +56,11 @@ export default function DashboardPage() {
         </div>
 
         {/* Four Pillars Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1  gap-6 max-w-6xl mx-auto">
           {sections.map((section) => (
             <Card
               key={section.path}
-              className="group hover:shadow-2xl transition-all duration-300 cursor-pointer border-2 hover:border-purple-400 hover:scale-105"
+              className=" hover:shadow-2xl bg-transparent transition-all duration-300 cursor-pointer border-2 hover:border-purple-400 hover:scale-105"
               onClick={() => navigate(section.path)}
             >
               <CardHeader className="space-y-4">
@@ -86,7 +84,7 @@ export default function DashboardPage() {
         </div>
 
         {/* User Stats */}
-        {musicianProfile && (
+        {user && (
           <div className="mt-12 max-w-4xl mx-auto">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
@@ -101,27 +99,27 @@ export default function DashboardPage() {
                 </Button>
               </CardHeader>
               <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="text-center p-4  rounded-lg">
+                <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
                   <div className="text-2xl font-bold text-purple-600">
-                    {musicianProfile.genre}
+                    {user?.genre}
                   </div>
                   <div className="text-sm text-muted-foreground">Genre</div>
                 </div>
-                <div className="text-center p-4  rounded-lg">
+                <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                   <div className="text-2xl font-bold text-blue-600">
-                    {musicianProfile.region}
+                    {user?.region}
                   </div>
                   <div className="text-sm text-muted-foreground">Region</div>
                 </div>
                 <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
                   <div className="text-2xl font-bold text-green-600 capitalize">
-                    {musicianProfile.level}
+                    {user?.level}
                   </div>
                   <div className="text-sm text-muted-foreground">Level</div>
                 </div>
                 <div className="text-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
                   <div className="text-2xl font-bold text-orange-600">
-                    {musicianProfile.lessonsCompleted.length}/3
+                    {user?.lessonsCompleted?.length}/3
                   </div>
                   <div className="text-sm text-muted-foreground">Lessons</div>
                 </div>
